@@ -1,0 +1,16 @@
+# This is Git's per-user configuration file.
+[user]
+  name = Benjamin Große
+  email = benjamin@midokura.com
+[alias]
+  pff = pull --ff-only
+  psu = push -u origin HEAD
+  # get parent commit's timestamp
+  parent-timestamp = show HEAD^1 --format="%at" -s
+  # find the first commit with same timestamp, anywhere (collisions can happen)
+  rebased-parent = !git log --all --after=$(git parent-timestamp) -n 1 --format=format:%H
+  # rebase from parent(old) to parent(new)
+  gerrit = !git rebase --onto $(git rebased-parent) HEAD^1
+[core]
+  editor = /usr/bin/nvim
+  excludesfile = /Users/bgrosse/.gitignore_global

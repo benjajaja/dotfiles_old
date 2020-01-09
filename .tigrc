@@ -1,0 +1,4 @@
+color date cyan default
+#color diff-stat 222 default
+
+set main-view = line-number:no,interval=5 id:yes,color date:relative-compact author:abbreviated commit-title:yes,graph,refs,overflow=no
