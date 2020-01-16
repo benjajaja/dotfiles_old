@@ -164,10 +164,10 @@ export PS1="\[\$txtgrn\]\W \[\$txtcyn\]\$git_branch\[\$txtred\]\$git_dirty\[\$tx
 
 export PATH="$HOME/.cargo/bin:$PATH"
 
-alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 dotfiles config --local status.showUntrackedFiles no
 
-export PATH="$PATH:$HOME/.nodenv/bin:$HOME/.bin"
+export PATH="$PATH:$HOME/.nodenv/bin:$HOME/.bin:$HOME/.yarn/bin"
 eval "$(nodenv init -)"
 
 

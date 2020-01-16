@@ -1,7 +1,7 @@
 Config { font = "-*-dina-medium-r-normal-*-26-*-*-*-*-*-*-*"
        , bgColor = "#000000"
        , fgColor = "#26F972"
-       , position = TopP 0 80
+       , position = TopP 0 160
        , lowerOnStart = True
        , commands = [ Run Cpu ["-L","3","-H","50","--high","#f0c040", "-t", "Cpu:<total>%"] 10
                     , Run Memory ["-t","Mem:<usedratio>%"] 10

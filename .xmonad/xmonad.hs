@@ -1,5 +1,4 @@
 import XMonad
-import XMonad.Config.Xfce
 import XMonad.Util.EZConfig (additionalKeys)
 import XMonad.Util.Run (spawnPipe)
 import XMonad.Layout.NoBorders (smartBorders)
@@ -65,7 +64,6 @@ main = do
       -- , ((myModmask .|. shiftMask, xK_q), spawn "xfce4-session-logout")
       , ((myModmask .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
       , ((myModmask .|. shiftMask, xK_l), do
-          spawn "trayer --edge top --align right --SetPartialStrut true --transparent true --tint 0x000000 -l"
           spawnOn "NET" "firefox"
           spawnOn "TTY1" myTerminal
           spawnOn "TTY2" myTerminal
