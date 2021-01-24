@@ -1,27 +1,4 @@
 {
-  "tslint.autoFixOnSave": true,
-  "languageserver": {
-    "elmLS": {
-      "command": "elm-language-server",
-      "args": ["--stdio"],
-      "filetypes": ["elm"],
-      "rootPatterns": ["elm.json"],
-      "initializationOptions": {
-        "elmPath": "elm",
-        "elmFormatPath": "elm-format",
-        "elmTestPath": "elm-test",
-        "diagnosticsOnSaveOnly": false
-      }
-    },
-    "metals": {
-      "command": "metals-vim",
-      "rootPatterns": ["build.sbt"],
-      "filetypes": ["scala", "sbt"]
-    }
-  },
-  "coc.preferences.hoverTarget": "echo",
-  "codeLens.enable": true,
-  "diagnostic.messageTarget": "echo",
   "diagnostic.virtualText": true,
   "diagnostic.virtualTextPrefix": "×",
   "diagnostic.virtualTextLines": 10

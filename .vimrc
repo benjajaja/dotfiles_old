@@ -2,6 +2,8 @@ if has('nvim')
   call plug#begin('~/.local/share/nvim/plugged')
 
   " essentials
+  Plug 'tpope/vim-repeat'
+  Plug 'svermeulen/vim-easyclip'
   Plug 'kien/ctrlp.vim'
   "Plug 'ap/vim-buftabline'
   Plug 'zefei/vim-wintabs'
@@ -12,7 +14,7 @@ if has('nvim')
   " javascript
   Plug 'leafgarland/typescript-vim'
   " Plug 'HerringtonDarkholme/yats.vim'
-  Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+  " Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
   " Plug 'pangloss/vim-javascript'
   " Plug 'maxmellon/vim-jsx-pretty'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -21,11 +23,20 @@ if has('nvim')
   " esoteric
   " Plug 'tidalcycles/vim-tidal'
 
-  " scala
-  Plug 'derekwyatt/vim-scala'
+  " glsl
+  Plug 'beyondmarc/glsl.vim'
+  " rustfmt
+  Plug 'rust-lang/rust.vim'
+
+  " themes
+  Plug 'phanviet/vim-monokai-pro'
+  Plug 'protesilaos/tempus-themes-vim'
 
   call plug#end()
 endif
+
+syntax enable
+filetype plugin indent on
 
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
@@ -91,35 +102,59 @@ au BufNewFile,BufRead *.tsx set filetype=typescript.tsx
 " highlight Constant ctermfg=172
 " highlight NonText ctermfg=093
 hi MatchParen    cterm=NONE ctermfg=green ctermbg=lightgreen
+" set termguicolors
+syntax enable
 
 
 " search selected text with //
 vnoremap // y/\V<C-r>=escape(@",'/\')<CR><CR>
+" replace word under cursor
+nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 
 " Coc
-" Some servers have issues with backup files, see #649
+" TextEdit might fail if hidden is not set.
+set hidden
+
+" Some servers have issues with backup files, see #649.
 set nobackup
 set nowritebackup
-" Better display for messages
-set cmdheight=2
 
-" You will have bad experience for diagnostic messages when it's default 4000.
+" Give more space for displaying messages.
+set cmdheight=1
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
 set updatetime=300
 
-" don't give |ins-completion-menu| messages.
+" Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
-" always show signcolumns
-set signcolumn=yes
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+
 " Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-" Use `[c` and `]c` to navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+" show type hint in command area
+nmap <silent> K :call CocAction("doHover")<CR>
+" show full diagnostics
+nmap <silent> I :call CocAction("diagnosticInfo")<CR>
 
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
@@ -132,12 +167,38 @@ nmap <leader>ac  <Plug>(coc-codeaction)
 " Fix autofix problem of current line
 nmap <leader>qf <Plug>(coc-fix-current)
 
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
+" end Coc
 
-" show type hint in command area
-nmap <silent> K :call CocAction("doHover")<CR>
-" show full diagnostics
-nmap <silent> I :call CocAction("diagnosticInfo")<CR>
+" remap 'mark' to gm
+nnoremap gm m
+" M to delete to end of line and yank
+nmap M <Plug>MoveMotionEndOfLinePlug
+
+func GitGrep(...)
+  let save = &grepprg
+  set grepprg=git\ grep\ -n\ $*
+  let s = 'grep'
+  for i in a:000
+    let s = s . ' ' . i
+  endfor
+  exe s
+  let &grepprg = save
+endfun
+command -nargs=? G call GitGrep(<f-args>)
+
+let g:EasyClipShareYanks = 1
+
+let g:rustfmt_autosave = 1
+" already are checking with coc, no more error windows are necessary
+" let g:rustfmt_fail_silently = 1
+
+" autocmd BufWinLeave * !~/cursor-reset %:p
+augroup RestoreCursorShapeOnExit
+    autocmd!
+    autocmd VimLeave * set guicursor=a:hor20-blinkwait400-blinkoff400-blinkon400
+augroup END
+
+let g:rehash256 = 1
+colorscheme molokai

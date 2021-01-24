@@ -1,0 +1,9 @@
+xset b 100 0 0
+xset r rate 200 40
+setxkbmap -option caps:escape
+
+
+nm-applet &
+xfce4-clipman &
+hsetroot -center /home/bgrosse/Pictures/skull_on_fire_framed_c700-477x480.jpg
+

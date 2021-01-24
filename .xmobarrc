@@ -3,13 +3,17 @@ Config { font = "-*-dina-medium-r-normal-*-26-*-*-*-*-*-*-*"
        , fgColor = "#26F972"
        , position = TopP 0 160
        , lowerOnStart = True
-       , commands = [ Run Cpu ["-L","3","-H","50","--high","#f0c040", "-t", "Cpu:<total>%"] 10
-                    , Run Memory ["-t","Mem:<usedratio>%"] 10
-                    , Run Battery ["-t","Bat:<left>% AC:<acstatus>","-L","50","-H","75","-h","green","-n","yell","-l","red"] 10
+       , commands = [ --Run Cpu ["-L","3","-H","50","--high","#f0c040", "-t", "Cpu:<total>%"] 10
+                    --, Run Memory ["-t","Mem:<usedratio>%"] 10
+                    --,
+                    Run Battery ["-t","Bat:<left>% AC:<acstatus>","-L","50","-H","75","-h","green","-n","yell","-l","red"] 10
                     , Run Com "date" ["+%a %Y/%m/%d %H:%M:%S"] "date" 10
                     , Run StdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %cpu% %memory% %battery% %date%"
+       , template = "%StdinReader% }{ %battery% %date%"
+       , allDesktops = False
+       , pickBroadest = True
+       , persistent = True
        }
