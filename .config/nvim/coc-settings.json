@@ -1,5 +1,7 @@
 {
   "diagnostic.virtualText": true,
   "diagnostic.virtualTextPrefix": "×",
-  "diagnostic.virtualTextLines": 10
+  "diagnostic.virtualTextLines": 10,
+  "coc.preferences.hoverTarget": "echo",
+  "diagnostic.messageTarget": "echo"
 }

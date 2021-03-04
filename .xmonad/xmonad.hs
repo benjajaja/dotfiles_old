@@ -25,7 +25,8 @@ myLayouts = avoidStruts
   $ smartLayout
 
 myLayoutHook =
-  onWorkspace "TTY1" (smartBorders $ smartLayout )
+  onWorkspace "NET" (smartBorders $ smartLayout )
+  $ onWorkspace "TTY1" (smartBorders $ smartLayout )
   $ onWorkspace "TTY2" (smartBorders $ smartLayout )
   $ onWorkspace "DEV" (smartBorders $ smartLayout )
   $ myLayouts
@@ -39,19 +40,6 @@ myWorkspaces =
 
 myModmask = mod4Mask
 myTerminal = "alacritty"
-
-myLogHook h =
-    dynamicLogWithPP $ xmobarPP
-                        { ppOutput = hPutStrLn h
-                        , ppTitle = xmobarColor "#888888" "" . shorten 50
-                        , ppLayout = wrap "[" "]"
-                        , ppCurrent = xmobarColor "#000000" "#26f972" . id
-                        , ppVisible = xmobarColor "#000000" "#cccccc" . id
-                        , ppVisibleNoWindows = Just $ xmobarColor "#000000" "#cccccc" . id
-                        , ppHidden = id
-                        , ppHiddenNoWindows = xmobarColor "#cccccc" "" . id
-                        , ppSep = " "
-                        }
 
 setFullscreenSupported :: X ()
 setFullscreenSupported = addSupported ["_NET_WM_STATE", "_NET_WM_STATE_FULLSCREEN"]
@@ -67,7 +55,6 @@ addSupported props = withDisplay $ \dpy -> do
 
 
 main = do
-  xmproc <- spawnPipe "/usr/bin/xmobar"
   xmonad $ defaultConfig
     { terminal = myTerminal
     , borderWidth = 4
@@ -81,16 +68,15 @@ main = do
                                <+> (isFullscreen --> doFullFloat)
                                <+> fullscreenManageHook
                                <+> manageHook defaultConfig
-    , logHook    = myLogHook xmproc
     , handleEventHook = handleEventHook defaultConfig
                                <+> docksEventHook
                                <+> fullscreenEventHook
     , startupHook = do
         setWMName "LG3D" <+> setFullscreenSupported
-        -- start trayer with delay so that it goes over xmobar
-        spawn "(sleep 1; /usr/bin/trayer --edge top --align right --SetPartialStrut true --transparent true --tint 0x000000 -l)"
+        spawn "/usr/bin/trayer --edge top --align right --SetPartialStrut true --transparent true --tint 0x000000 -l --height 32 --iconspacing 4"
         -- scale output together with DPI of 192 in .Xresources
-        spawn "xrandr --output eDP1 --scale 1.5x1.5"
+        spawn "xrandr --output eDP1 --scale 1.25x1.25"
+        spawn "gsettings set org.gnome.desktop.interface text-scaling-factor 1.5"
 
         -- repeat
         spawn "xset b 100 0 0"
@@ -105,6 +91,7 @@ main = do
         -- tray icons
         spawn "nm-applet"
         spawn "volumeicon"
+        spawn "cbatticon"
         -- spawn "gtrayicon --activate=\"xinput float $(keyboardid)\" --deactivate=\"xinput reattach $(keyboardid) 3\""
 
         -- screensaver and lock
@@ -122,7 +109,7 @@ main = do
         spawnOn "COM" "telegram"
     }
     `additionalKeys`
-      [ ((myModmask, xK_p), spawn "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
+      [ ((myModmask, xK_p), spawn "dmenu_run -fn 'ProFontIIx-12' -sb orange -sf black -nf orange")
       , ((myModmask .|. shiftMask, xK_m), io (exitWith ExitSuccess))
       , ((myModmask .|. shiftMask, xK_l), do
           spawnOn "NET" "firefox"
