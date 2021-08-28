@@ -2,6 +2,22 @@
   "diagnostic.virtualText": true,
   "diagnostic.virtualTextPrefix": "×",
   "diagnostic.virtualTextLines": 10,
-  "coc.preferences.hoverTarget": "echo",
-  "diagnostic.messageTarget": "echo"
+  "diagnostic.messageTarget": "echo",
+  "languageserver": {
+    "elmLS": {
+      "command": "elm-language-server",
+      "filetypes": ["elm"],
+      "rootPatterns": ["elm.json"]
+    },
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
+      "filetypes": ["go"],
+      "initializationOptions": {
+        "usePlaceholders": true
+      }
+    }
+  },
+  "codeLens.enable": true,
+  "coc.preferences.formatOnSaveFiletypes": ["elm", "go"]
 }

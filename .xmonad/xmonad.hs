@@ -73,33 +73,8 @@ main = do
                                <+> fullscreenEventHook
     , startupHook = do
         setWMName "LG3D" <+> setFullscreenSupported
+        -- trayer must run AFTER xmonad has started or it will sit behind any windows
         spawn "/usr/bin/trayer --edge top --align right --SetPartialStrut true --transparent true --tint 0x000000 -l --height 32 --iconspacing 4"
-        -- scale output together with DPI of 192 in .Xresources
-        spawn "xrandr --output eDP1 --scale 1.25x1.25"
-        spawn "gsettings set org.gnome.desktop.interface text-scaling-factor 1.5"
-
-        -- repeat
-        spawn "xset b 100 0 0"
-        spawn "xset r rate 200 40"
-        -- special keys
-        spawn "setxkbmap -option caps:escape -option altwin:swap_lalt_lwin -layout us altgr-intl"
-
-
-        -- media keys
-        spawn "xbindkeys"
-
-        -- tray icons
-        spawn "nm-applet"
-        spawn "volumeicon"
-        spawn "cbatticon"
-        -- spawn "gtrayicon --activate=\"xinput float $(keyboardid)\" --deactivate=\"xinput reattach $(keyboardid) 3\""
-
-        -- screensaver and lock
-        spawn "xscreensaver"
-        spawn "xss-lock xscreensaver-command --lock"
-
-        -- desktop background
-        spawn "hsetroot -center $HOME/Pictures/skull_on_fire_framed_c700-477x480.j"
 
         -- spawn default apps
         spawnOn "NET" "firefox"

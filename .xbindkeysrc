@@ -15,15 +15,12 @@
    XF86AudioMicMute
 
 # Increase backlight
-"xbacklight -inc 10"
+"xbacklight -inc +10"
    XF86MonBrightnessUp
 
 # Decrease backlight
 "xbacklight -dec 10"
    XF86MonBrightnessDown
-
-"xfce4-screenshooter"
-  Print
 
 "thunar"
   XF86Favorites

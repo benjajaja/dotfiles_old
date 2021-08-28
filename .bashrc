@@ -64,7 +64,7 @@ alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 dotfiles config --local status.showUntrackedFiles no
 
 
-export PATH="$PATH:$HOME/.cargo/bin:$HOME/.nodenv/bin:$HOME/.bin:$HOME/.yarn/bin:$HOME/.local/bin:/usr/local/go/bin:$GOPATH/bin"
+export PATH="$PATH:$HOME/.cargo/bin:$HOME/.nodenv/bin:$HOME/.bin:$HOME/.yarn/bin:$HOME/.local/bin:/usr/local/go/bin:$HOME/go/bin:$GOPATH/bin"
 
 # export GOPATH=$HOME/go
 eval "$(nodenv init -)"
@@ -77,3 +77,4 @@ source ~/.platform-envs
 alias ls='ls --color=auto'
 alias xc='xclip -selection clipboard'
 
+. "$HOME/.cargo/env"

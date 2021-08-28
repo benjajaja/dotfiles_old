@@ -5,12 +5,15 @@ if has('nvim')
   Plug 'tpope/vim-repeat'
   Plug 'svermeulen/vim-easyclip'
   Plug 'kien/ctrlp.vim'
-  "Plug 'ap/vim-buftabline'
-  Plug 'zefei/vim-wintabs'
-  Plug 'zefei/vim-wintabs-powerline'
   Plug 'tpope/vim-surround'
   Plug 'scrooloose/nerdcommenter'
-  " Plug 'tpope/vim-fugitive'
+
+  " tabs
+  "Plug 'ap/vim-buftabline'
+  " Plug 'zefei/vim-wintabs'
+  " Plug 'zefei/vim-wintabs-powerline'
+  Plug 'romgrk/barbar.nvim'
+
   " javascript
   Plug 'leafgarland/typescript-vim'
   " Plug 'HerringtonDarkholme/yats.vim'
@@ -18,10 +21,10 @@ if has('nvim')
   " Plug 'pangloss/vim-javascript'
   " Plug 'maxmellon/vim-jsx-pretty'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
   " elm
-  Plug 'elmcast/elm-vim'
-  " esoteric
-  " Plug 'tidalcycles/vim-tidal'
+  " Plug 'elmcast/elm-vim'
+  Plug 'andys8/vim-elm-syntax'
 
   " glsl
   Plug 'beyondmarc/glsl.vim'
@@ -29,14 +32,53 @@ if has('nvim')
   Plug 'rust-lang/rust.vim'
 
   " themes
-  Plug 'phanviet/vim-monokai-pro'
-  Plug 'protesilaos/tempus-themes-vim'
+  Plug 'sainnhe/sonokai'
+  Plug 'ghifarit53/tokyonight-vim'
+  Plug 'sickill/vim-monokai'
+  let g:doom_one_terminal_colors = v:true
+  Plug 'romgrk/doom-one.vim'
+  Plug 'Erichain/vim-monokai-pro'
+  Plug 'benjaminwhite/Benokai'
+  Plug 'reewr/vim-monokai-phoenix'
+  Plug 'mopp/mopkai.vim'
+  Plug 'patstockwell/vim-monokai-tasty'
+  Plug 'spartrekus/The-Matrix-Hacker-VIM-Theme'
 
+  " python
+  Plug 'psf/black', { 'branch': 'stable' }
   call plug#end()
 endif
 
 syntax enable
-filetype plugin indent on
+"
+" colors
+" highlight Normal ctermfg=044
+" highlight Constant ctermfg=172
+" highlight NonText ctermfg=093
+if has('termguicolors')
+  set termguicolors
+endif
+
+colorscheme evokai
+hi Normal guibg=#000000 ctermbg=0
+" hi TabLineSel guifg=#ffffff ctermbg=green
+hi TabLineFill guifg=#888888 guibg=#440000
+hi MatchParen cterm=NONE ctermfg=green ctermbg=lightgreen
+
+" let g:sonokai_style = 'andromeda'
+" colorscheme sonokai
+
+" let g:rehash256 = 1
+" let g:molokai_original = 1
+" colorscheme molokai
+
+" The configuration options should be placed before `colorscheme sonokai`.
+" let g:sonokai_style = 'andromeda'
+" let g:sonokai_enable_italic = 1
+" let g:sonokai_disable_italic_comment = 1
+" colorscheme sonokai
+
+
 
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
@@ -57,6 +99,8 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set ruler
+filetype plugin indent on
+autocmd FileType go setlocal noexpandtab shiftwidth=4 softtabstop=4 tabstop=4 shiftwidth=4
 
 " show whitespace anomalies
 set list
@@ -76,8 +120,8 @@ let g:wintabs_ui_modified = " ≠"
 "nnoremap <C-K> :bnext<CR>
 "nnoremap <C-J> :bprev<CR>
 "nnoremap <C-B> :bd<CR>
-map <C-H> <Plug>(wintabs_previous)
-map <C-L> <Plug>(wintabs_next)
+map <C-K> <Plug>(wintabs_previous)
+map <C-J> <Plug>(wintabs_next)
 " map <C-[> <Plug>(wintabs_previous)
 " map <C-]> <Plug>(wintabs_next)
 map <C-T>c <Plug>(wintabs_close)
@@ -85,26 +129,34 @@ map <C-T>u <Plug>(wintabs_undo)
 map <C-T>o <Plug>(wintabs_only)
 map <C-W> <Plug>(wintabs_close)
 
+" barbar
+let bufferline = get(g:, 'bufferline', {})
+let bufferline.icons = v:false
+let bufferline.closable = v:false
+let bufferline.icon_close_tab = '·'
+let bufferline.icon_close_tab_modified = '●'
+let bufferline.icon_custom_colors = v:true
+let bufferline.maximum_padding = 1
+nnoremap <silent>    <C-K> :BufferPrevious<CR>
+nnoremap <silent>    <C-J> :BufferNext<CR>
+nnoremap <silent>    <C-H> :BufferMovePrevious<CR>
+nnoremap <silent>    <C-L> :BufferMoveNext<CR>
+nnoremap <silent>    <C-W> :BufferClose<CR>
+
+call bufferline#highlight#setup()
+
+
 " prettier
-let g:prettier#autoformat = 0
-if filereadable(findfile('prettier.config.js', '.;'))
-  echo "Using prettier..."
+" let g:prettier#autoformat = 0
+" if filereadable(findfile('prettier.config.js', '.;'))
+  " echo "Using prettier..."
   " autocmd BufWritePre *.js,*.jsx,*mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
-  autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx PrettierAsync
-endif
+  " autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx PrettierAsync
+" endif
 au BufNewFile,BufRead *.tsx set filetype=typescript.tsx
 
 " ts syntax
 " let g:vim_jsx_pretty_colorful_config = 1
-
-" colors
-" highlight Normal ctermfg=044
-" highlight Constant ctermfg=172
-" highlight NonText ctermfg=093
-hi MatchParen    cterm=NONE ctermfg=green ctermbg=lightgreen
-" set termguicolors
-syntax enable
-
 
 " search selected text with //
 vnoremap // y/\V<C-r>=escape(@",'/\')<CR><CR>
@@ -120,7 +172,7 @@ set nobackup
 set nowritebackup
 
 " Give more space for displaying messages.
-set cmdheight=1
+set cmdheight=2
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
@@ -200,5 +252,3 @@ augroup RestoreCursorShapeOnExit
     autocmd VimLeave * set guicursor=a:hor20-blinkwait400-blinkoff400-blinkon400
 augroup END
 
-let g:rehash256 = 1
-colorscheme molokai
