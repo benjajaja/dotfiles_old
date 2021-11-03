@@ -61,7 +61,7 @@ export PS1='$(pista -m)'
 
 
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-dotfiles config --local status.showUntrackedFiles no
+#dotfiles config --local status.showUntrackedFiles no
 
 
 export PATH="$PATH:$HOME/.cargo/bin:$HOME/.nodenv/bin:$HOME/.bin:$HOME/.yarn/bin:$HOME/.local/bin:/usr/local/go/bin:$HOME/go/bin:$GOPATH/bin"
