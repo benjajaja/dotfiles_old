@@ -53,15 +53,16 @@ alias nv=nvim
 # https://github.com/NerdyPepper/pista/issues/12
 export PROMPT_CHAR=">"
 export HIDE_HOME_CWD=1
-# export PROMPT_CHAR_COLOR="green"
-# export SHORTEN_CWD=1
-# export CWD_COLOR="yellow"
+export PROMPT_CHAR_COLOR="green"
+export PROMPT_CHAR_ROOT_COLOR="green"
+export SHORTEN_CWD=1
+export CWD_COLOR="yellow"
 export PS1='$(pista -m)'
-# export PS1='>'
 
 
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 #dotfiles config --local status.showUntrackedFiles no
+alias dotfiles-tig='GIT_DIR=$HOME/.dotfiles/ GIT_WORK_TREE=$HOME tig'
 
 
 export PATH="$PATH:$HOME/.cargo/bin:$HOME/.nodenv/bin:$HOME/.bin:$HOME/.yarn/bin:$HOME/.local/bin:/usr/local/go/bin:$HOME/go/bin:$GOPATH/bin"
@@ -69,12 +70,10 @@ export PATH="$PATH:$HOME/.cargo/bin:$HOME/.nodenv/bin:$HOME/.bin:$HOME/.yarn/bin
 # export GOPATH=$HOME/go
 eval "$(nodenv init -)"
 
-# midokura specifics
-source ~/.platform-envs
-
 #[[ $XDG_VTNR -le 2 ]] && tbsm
 
 alias ls='ls --color=auto'
 alias xc='xclip -selection clipboard'
 
 . "$HOME/.cargo/env"
+source /usr/share/nvm/init-nvm.sh

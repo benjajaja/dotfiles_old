@@ -1,0 +1,13 @@
+.dotfiles
+.cache
+.cargo
+.config/chromium
+.Xauthority
+.bash_history
+.bash_logout
+.local/share/Steam
+.local/share/TelegramDesktop
+.mozilla
+.nvm
+.paradoxlauncher
+.rustup

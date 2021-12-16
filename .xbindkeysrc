@@ -1,26 +1,24 @@
 # Increase volume
-"amixer -q set Master 10%+ unmute"
-   XF86AudioRaiseVolume
+# "amixer -q set Master 10%+ unmute"
+   # XF86AudioRaiseVolume
 
 # Decrease volume
-"amixer -q set Master 10%- unmute"
-   XF86AudioLowerVolume
+# "amixer -q set Master 10%- unmute"
+   # XF86AudioLowerVolume
 
 # Mute volume
-"amixer -q set Master toggle"
-   XF86AudioMute
+# "amixer -q set Master toggle"
+   # XF86AudioMute
 
 # Mute mic
-"amixer -q set Capture toggle"
-   XF86AudioMicMute
+# "amixer -q set Capture toggle"
+   # XF86AudioMicMute
 
 # Increase backlight
-"xbacklight -inc +10"
+"light -A 10"
    XF86MonBrightnessUp
 
 # Decrease backlight
-"xbacklight -dec 10"
+"light -U 10"
    XF86MonBrightnessDown
 
-"thunar"
-  XF86Favorites

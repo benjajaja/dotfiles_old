@@ -18,7 +18,7 @@ import XMonad.Hooks.SetWMName
 import System.Exit
 import System.IO
 
-smartLayout = Tall 1 (3/100) (3/5) ||| Grid ||| noBorders (fullscreenFull Full)
+smartLayout = Tall 1 (3/100) (55/100) ||| Grid ||| noBorders (fullscreenFull Full)
 
 myLayouts = avoidStruts
   $ smartBorders . avoidStruts
@@ -80,19 +80,12 @@ main = do
         spawnOn "NET" "firefox"
         spawnOn "TTY1" myTerminal
         spawnOn "TTY2" myTerminal
-        spawnOn "DEV" "chromium"
-        spawnOn "COM" "telegram"
+        spawnOn "COM" "telegram-desktop"
+        spawnOn "COM" "chromium"
     }
     `additionalKeys`
-      [ ((myModmask, xK_p), spawn "dmenu_run -fn 'ProFontIIx-12' -sb orange -sf black -nf orange")
+      [ ((myModmask, xK_p), spawn "dmenu_run -fn 'ProFontWindows-12' -sb '#f0e68c' -sf black -nf '#f0e68c' -nb black")
       , ((myModmask .|. shiftMask, xK_m), io (exitWith ExitSuccess))
-      , ((myModmask .|. shiftMask, xK_l), do
-          spawnOn "NET" "firefox"
-          spawnOn "TTY1" myTerminal
-          spawnOn "TTY2" myTerminal
-          spawnOn "DEV" "chromium"
-          spawnOn "COM" "telegram"
-        )
       , ((myModmask, xK_b), sendMessage ToggleStruts)
       ]
 

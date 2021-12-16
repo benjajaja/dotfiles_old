@@ -1,3 +1,5 @@
+xrandr --setprovideroutputsource modesetting NVIDIA-0
+xrandr --auto
 # scale output together with DPI of 192 in .Xresources
 xrandr --output eDP1 --scale 1.25x1.25
 gsettings set org.gnome.desktop.interface text-scaling-factor 1.5
@@ -7,7 +9,7 @@ nm-applet &
 volumeicon &
 xfce4-clipman &
 cbatticon &
-gtrayicon --activate=\"xinput float $(keyboardid)\" --deactivate=\"xinput reattach $(keyboardid) 3\" &
+#gtrayicon --activate=\"xinput float $(keyboardid)\" --deactivate=\"xinput reattach $(keyboardid) 3\" &
 # /usr/bin/trayer --edge top --align right --SetPartialStrut true --transparent true --tint 0x000000 -l --height 32 --iconspacing 4 &
 
 # background

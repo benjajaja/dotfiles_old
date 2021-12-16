@@ -1,5 +1,5 @@
-Xft.dpi: 150
-motherbase.fractionalDpi: 1.5
+Xft.dpi: 192
+!motherbase.fractionalDpi: 1.5
 
 xscreensaver.newLoginCommand: dm-tool switch-to-greeter
 
