@@ -1,18 +1,19 @@
 # Increase volume
-# "amixer -q set Master 10%+ unmute"
-   # XF86AudioRaiseVolume
+"pamixer -i 10"
+   XF86AudioRaiseVolume
 
 # Decrease volume
-# "amixer -q set Master 10%- unmute"
-   # XF86AudioLowerVolume
+"pamixer -d 10"
+   XF86AudioLowerVolume
 
 # Mute volume
-# "amixer -q set Master toggle"
-   # XF86AudioMute
+"pamixer -t"
+   XF86AudioMute
 
 # Mute mic
-# "amixer -q set Capture toggle"
-   # XF86AudioMicMute
+# "pamixer --list-sources|grep input| awk '{print $1}' | xargs -I '{}' pamixer --source '{}' -t"
+"pamixer --default-source -t"
+   XF86AudioMicMute
 
 # Increase backlight
 "light -A 10"

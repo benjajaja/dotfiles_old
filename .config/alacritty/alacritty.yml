@@ -7,7 +7,7 @@ window:
     y: 4
 font:
   normal:
-    family: ProFontWindows
+    family: ProFontWindows Nerd Font Mono
   bold:
     style: normal
   size: 12.0

@@ -1,31 +1,26 @@
 # XScreenSaver Preferences File
-# Written by xscreensaver-demo 5.44 for gipsy on Thu Jan  7 00:03:20 2021.
+# Written by xscreensaver-demo 6.02 for gipsy on Sun Dec 26 11:06:50 2021.
 # https://www.jwz.org/xscreensaver/
 
 timeout:	0:10:00
 cycle:		0:10:00
-lock:		False
-lockTimeout:	0:00:00
+lock:		True
+lockTimeout:	1:00:00
 passwdTimeout:	0:00:30
 visualID:	default
 installColormap:    True
 verbose:	False
-timestamp:	True
 splash:		False
 splashDuration:	0:00:01
 demoCommand:	xscreensaver-demo
-prefsCommand:	
 nice:		10
-memoryLimit:	0
 fade:		True
 unfade:		False
-fadeSeconds:	0:00:02
-fadeTicks:	20
-captureStderr:	True
+fadeSeconds:	0:00:01
 ignoreUninstalledPrograms:False
 font:		terminus-medium-r-*-320-*-*-*
 dpmsEnabled:	False
-dpmsQuickOff:	False
+dpmsQuickOff:	True
 dpmsStandby:	2:00:00
 dpmsSuspend:	2:00:00
 dpmsOff:	4:00:00
@@ -42,6 +37,7 @@ textLiteral:	XScreenSaver
 textFile:	/home/gipsy/p/gph/README.md
 textProgram:	fortune
 textURL:	http://en.wikipedia.org/w/index.php?title=Special:NewPages&feed=rss
+dialogTheme:	greenblack
 
 programs:								      \
 -				maze -root				    \n\
@@ -283,15 +279,14 @@ programs:								      \
 				scooter -root				    \n\
 - GL: 				etruscanvenus -root			    \n\
   GL: 				gibson -root				    \n\
+  GL: 				beats -root				    \n\
+  GL: 				covid19 -root				    \n\
+  GL: 				headroom -root				    \n\
+  GL: 				sphereeversion -root			    \n\
+				binaryhorizon -root			    \n\
+				marbling -root				    \n\
 
 
-pointerPollTime:    0:00:05
 pointerHysteresis:  10
-windowCreationTimeout:0:00:30
-initialDelay:	0:00:00
-GetViewPortIsFullOfLies:False
-procInterrupts:	True
-xinputExtensionDev: False
-overlayStderr:	True
 authWarningSlack:   20
 

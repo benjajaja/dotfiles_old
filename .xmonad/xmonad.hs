@@ -18,18 +18,22 @@ import XMonad.Hooks.SetWMName
 import System.Exit
 import System.IO
 
+-- Default / Grid / Fullscren without borders
 smartLayout = Tall 1 (3/100) (55/100) ||| Grid ||| noBorders (fullscreenFull Full)
 
-myLayouts = avoidStruts
+-- smartBorders removes borders when single window in workspace
+noStrutLayout = smartBorders $ smartLayout
+strutLayout = avoidStruts
   $ smartBorders . avoidStruts
   $ smartLayout
 
+-- TTY workspaces never have strut (bar)
 myLayoutHook =
-  onWorkspace "NET" (smartBorders $ smartLayout )
-  $ onWorkspace "TTY1" (smartBorders $ smartLayout )
-  $ onWorkspace "TTY2" (smartBorders $ smartLayout )
-  $ onWorkspace "DEV" (smartBorders $ smartLayout )
-  $ myLayouts
+  onWorkspace "NET" strutLayout
+  $ onWorkspace "TTY1" noStrutLayout
+  $ onWorkspace "TTY2" noStrutLayout
+  $ onWorkspace "DEV" strutLayout
+  $ strutLayout
 
 myWorkspaces =
   [ "NET", "TTY1", "TTY2"
@@ -38,9 +42,10 @@ myWorkspaces =
   , "6", "7", "8", "9"
   ]
 
-myModmask = mod4Mask
+myModmask = mod4Mask -- ralt
 myTerminal = "alacritty"
 
+-- necessary?
 setFullscreenSupported :: X ()
 setFullscreenSupported = addSupported ["_NET_WM_STATE", "_NET_WM_STATE_FULLSCREEN"]
 
@@ -55,6 +60,7 @@ addSupported props = withDisplay $ \dpy -> do
 
 
 main = do
+  -- xmproc <- spawnPipe "xmobar"
   xmonad $ defaultConfig
     { terminal = myTerminal
     , borderWidth = 4
@@ -71,21 +77,26 @@ main = do
     , handleEventHook = handleEventHook defaultConfig
                                <+> docksEventHook
                                <+> fullscreenEventHook
+    -- , logHook = dynamicLogWithPP xmobarPP
+                        -- { ppOutput = hPutStrLn xmproc
+                        -- , ppTitle = xmobarColor "green" "" . shorten 50
+                        -- }
     , startupHook = do
         setWMName "LG3D" <+> setFullscreenSupported
         -- trayer must run AFTER xmonad has started or it will sit behind any windows
-        spawn "/usr/bin/trayer --edge top --align right --SetPartialStrut true --transparent true --tint 0x000000 -l --height 32 --iconspacing 4"
-
-        -- spawn default apps
+        -- spawn "/usr/bin/polybar example"
+        spawn "/usr/bin/trayer --edge top --align right --SetPartialStrut true --transparent true --tint 0x000000 -l --height 32 --iconspacing 4 --expand false"
         spawnOn "NET" "firefox"
         spawnOn "TTY1" myTerminal
         spawnOn "TTY2" myTerminal
         spawnOn "COM" "telegram-desktop"
         spawnOn "COM" "chromium"
+        sendMessage ToggleStruts -- hide strut on first workspac
     }
     `additionalKeys`
-      [ ((myModmask, xK_p), spawn "dmenu_run -fn 'ProFontWindows-12' -sb '#f0e68c' -sf black -nf '#f0e68c' -nb black")
-      , ((myModmask .|. shiftMask, xK_m), io (exitWith ExitSuccess))
-      , ((myModmask, xK_b), sendMessage ToggleStruts)
+      [ ((myModmask, xK_p), spawn "dmitri") -- launcher
+      -- , ((myModmask, xK_p), spawn "dmenu_run -fn 'ProFontWindows-12' -sb '#f0e68c' -sf black -nf '#f0e68c' -nb black")
+      , ((myModmask .|. shiftMask, xK_m), io (exitWith ExitSuccess)) -- quit?
+      , ((myModmask, xK_b), sendMessage ToggleStruts) -- toggle struts (bar)
       ]
 

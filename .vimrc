@@ -7,11 +7,9 @@ if has('nvim')
   Plug 'kien/ctrlp.vim'
   Plug 'tpope/vim-surround'
   Plug 'scrooloose/nerdcommenter'
+  Plug 'bkad/CamelCaseMotion'
 
   " tabs
-  "Plug 'ap/vim-buftabline'
-  " Plug 'zefei/vim-wintabs'
-  " Plug 'zefei/vim-wintabs-powerline'
   Plug 'romgrk/barbar.nvim'
 
   " javascript
@@ -50,11 +48,7 @@ if has('nvim')
 endif
 
 syntax enable
-"
-" colors
-" highlight Normal ctermfg=044
-" highlight Constant ctermfg=172
-" highlight NonText ctermfg=093
+highlight ColorColumn guifg=#440000
 if has('termguicolors')
   set termguicolors
 endif
@@ -190,6 +184,9 @@ else
   set signcolumn=yes
 endif
 
+" leader key
+let mapleader=";"
+
 " Use <c-space> to trigger completion.
 if has('nvim')
   inoremap <silent><expr> <c-space> coc#refresh()
@@ -228,6 +225,8 @@ nnoremap gm m
 " M to delete to end of line and yank
 nmap M <Plug>MoveMotionEndOfLinePlug
 
+let g:camelcasemotion_key = '<leader>'
+
 func GitGrep(...)
   let save = &grepprg
   set grepprg=git\ grep\ -n\ $*
@@ -252,3 +251,13 @@ augroup RestoreCursorShapeOnExit
     autocmd VimLeave * set guicursor=a:hor20-blinkwait400-blinkoff400-blinkon400
 augroup END
 
+" colors
+" highlight Normal ctermfg=044
+" highlight Constant ctermfg=172
+" highlight NonText ctermfg=093
+highlight ColorColumn guifg=#222120
+
+let g:go_fmt_command = "golines"
+let g:go_fmt_options = {
+    \ 'golines': '-m 100',
+    \ }

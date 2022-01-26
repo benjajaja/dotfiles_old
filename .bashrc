@@ -1,5 +1,8 @@
 [[ $- != *i* ]] && return
 
+# vi mode, see .inputrc
+set -o vi
+
 # auto cd
 shopt -s autocd
 
@@ -65,10 +68,8 @@ alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias dotfiles-tig='GIT_DIR=$HOME/.dotfiles/ GIT_WORK_TREE=$HOME tig'
 
 
-export PATH="$PATH:$HOME/.cargo/bin:$HOME/.nodenv/bin:$HOME/.bin:$HOME/.yarn/bin:$HOME/.local/bin:/usr/local/go/bin:$HOME/go/bin:$GOPATH/bin"
-
-# export GOPATH=$HOME/go
-eval "$(nodenv init -)"
+export GOPATH=$HOME/go
+export PATH="$PATH:$HOME/.cargo/bin:$HOME/.bin:$HOME/.yarn/bin:$HOME/.local/bin:/usr/local/go/bin:$GOPATH/bin"
 
 #[[ $XDG_VTNR -le 2 ]] && tbsm
 
@@ -77,3 +78,4 @@ alias xc='xclip -selection clipboard'
 
 . "$HOME/.cargo/env"
 source /usr/share/nvm/init-nvm.sh
+nvm use default --silent

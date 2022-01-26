@@ -1,4 +1,4 @@
-Config { font = "-*-dina-medium-r-normal-*-26-*-*-*-*-*-*-*"
+Config { font = "-*-*-medium-r-normal-*-18-*-*-*-*-*-*-*"
        , bgColor = "#000000"
        , fgColor = "#26F972"
        , position = TopP 0 160
