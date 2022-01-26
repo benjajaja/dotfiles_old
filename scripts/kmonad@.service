@@ -1,0 +1,14 @@
+[Unit]
+Description=kmonad keyboard config
+
+[Service]
+Restart=always
+RestartSec=3
+#ExecStart=/usr/bin/kmonad %E/kmonad/%i.kbd
+ExecStart=/home/gipsy/scripts/keyboard.sh
+Nice=-20
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/home/gipsy/.Xauthority
+
+[Install]
+WantedBy=default.target
