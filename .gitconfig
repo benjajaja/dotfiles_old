@@ -1,7 +1,7 @@
 # This is Git's per-user configuration file.
 [user]
   name = Benjamin Große
-  email = benjamin@midokura.com
+  email = ste3ls@gmail.com
 [alias]
   pff = pull --ff-only
   psu = push -u origin HEAD

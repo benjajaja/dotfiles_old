@@ -2,13 +2,14 @@
 /usr/bin/prime-offload
 
 # scale output together with DPI of 192 in .Xresources
-xrandr --output eDP1 --scale 1.25x1.25
+xrandr --output HDMI-0 --auto --primary --left-of eDP-1-1
 xrdb -merge ~/.Xresources
 #export GDK_SCALE=2
-gsettings set org.gnome.desktop.interface text-scaling-factor 2
+# gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <2>}]"
+# gsettings set org.gnome.desktop.interface scaling-factor 2
 
 # background
-hsetroot -center $HOME/Pictures/skull_on_fire_framed_c700-477x480.jpg
+hsetroot -center $HOME/Pictures/skull_on_fire_framed_c700-477x480.jpg &
 
 # notifications
 dunst &
@@ -27,11 +28,11 @@ mictray &
 #gtrayicon --activate=\"xinput float $(keyboardid)\" --deactivate=\"xinput reattach $(keyboardid) 3\" &
 
 # screensaver
-xscreensaver &
-xss-lock xscreensaver-command &
+# xscreensaver &
+# xss-lock xscreensaver-command &
 
 # keyboard
-bash $HOME/scripts/keyboard.sh
+systemctl --user restart kmonad@cornelius &
 
 xmonad
 

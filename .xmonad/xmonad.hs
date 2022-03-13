@@ -91,7 +91,7 @@ main = do
         spawnOn "TTY2" myTerminal
         spawnOn "COM" "telegram-desktop"
         spawnOn "COM" "chromium"
-        sendMessage ToggleStruts -- hide strut on first workspac
+        sendMessage ToggleStruts -- hide strut on first workspace
     }
     `additionalKeys`
       [ ((myModmask, xK_p), spawn "dmitri") -- launcher

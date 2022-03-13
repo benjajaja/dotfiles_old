@@ -10,42 +10,52 @@ if has('nvim')
   Plug 'bkad/CamelCaseMotion'
 
   " tabs
+  Plug 'kyazdani42/nvim-web-devicons'
   Plug 'romgrk/barbar.nvim'
 
-  " javascript
-  Plug 'leafgarland/typescript-vim'
-  " Plug 'HerringtonDarkholme/yats.vim'
-  " Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-  " Plug 'pangloss/vim-javascript'
-  " Plug 'maxmellon/vim-jsx-pretty'
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  " LSP
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-cmdline'
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'hrsh7th/cmp-vsnip'
+  Plug 'hrsh7th/vim-vsnip'
+  Plug 'RishabhRD/popfix'
+  Plug 'RishabhRD/nvim-lsputils'
+
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+  " typescript
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'jose-elias-alvarez/null-ls.nvim'
+  Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
 
   " elm
   " Plug 'elmcast/elm-vim'
-  Plug 'andys8/vim-elm-syntax'
+  " Plug 'andys8/vim-elm-syntax'
 
   " glsl
   Plug 'beyondmarc/glsl.vim'
   " rustfmt
   Plug 'rust-lang/rust.vim'
+  " To enable more of the features of rust-analyzer, such as inlay hints and more!
+  Plug 'simrat39/rust-tools.nvim'
 
   " themes
-  Plug 'sainnhe/sonokai'
-  Plug 'ghifarit53/tokyonight-vim'
-  Plug 'sickill/vim-monokai'
-  let g:doom_one_terminal_colors = v:true
-  Plug 'romgrk/doom-one.vim'
-  Plug 'Erichain/vim-monokai-pro'
-  Plug 'benjaminwhite/Benokai'
-  Plug 'reewr/vim-monokai-phoenix'
-  Plug 'mopp/mopkai.vim'
-  Plug 'patstockwell/vim-monokai-tasty'
-  Plug 'spartrekus/The-Matrix-Hacker-VIM-Theme'
+  Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+  Plug 'Yagua/nebulous.nvim'
 
   " python
   Plug 'psf/black', { 'branch': 'stable' }
+
+  Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
   call plug#end()
 endif
+
+lua require("cmp_config")
+lua require("lsp_config")
 
 syntax enable
 highlight ColorColumn guifg=#440000
@@ -53,25 +63,16 @@ if has('termguicolors')
   set termguicolors
 endif
 
-colorscheme evokai
+" let g:tokyonight_style = "night"
+" let g:tokyonight_italic_functions = 1
+colorscheme nebulous
 hi Normal guibg=#000000 ctermbg=0
-" hi TabLineSel guifg=#ffffff ctermbg=green
+hi TabLineSel guifg=#ffffff ctermbg=green
 hi TabLineFill guifg=#888888 guibg=#440000
 hi MatchParen cterm=NONE ctermfg=green ctermbg=lightgreen
 
-" let g:sonokai_style = 'andromeda'
-" colorscheme sonokai
-
-" let g:rehash256 = 1
-" let g:molokai_original = 1
-" colorscheme molokai
-
-" The configuration options should be placed before `colorscheme sonokai`.
-" let g:sonokai_style = 'andromeda'
-" let g:sonokai_enable_italic = 1
-" let g:sonokai_disable_italic_comment = 1
-" colorscheme sonokai
-
+" set mouse+=a
+" breaks clipboard
 
 
 let g:ctrlp_map = '<c-p>'
@@ -94,7 +95,7 @@ set shiftwidth=2
 set expandtab
 set ruler
 filetype plugin indent on
-autocmd FileType go setlocal noexpandtab shiftwidth=4 softtabstop=4 tabstop=4 shiftwidth=4
+autocmd FileType go setlocal noexpandtab shiftwidth=4 softtabstop=4 tabstop=4 shiftwidth=4 omnifunc=lsp#complete
 
 " show whitespace anomalies
 set list
@@ -125,14 +126,15 @@ map <C-W> <Plug>(wintabs_close)
 
 " barbar
 let bufferline = get(g:, 'bufferline', {})
-let bufferline.icons = v:false
+let bufferline.icons = v:true
 let bufferline.closable = v:false
 let bufferline.icon_close_tab = '·'
 let bufferline.icon_close_tab_modified = '●'
 let bufferline.icon_custom_colors = v:true
 let bufferline.maximum_padding = 1
-nnoremap <silent>    <C-K> :BufferPrevious<CR>
-nnoremap <silent>    <C-J> :BufferNext<CR>
+" let bufferline.auto_hide = v:true
+nnoremap <silent>    <C-PageUp> :BufferPrevious<CR>
+nnoremap <silent>    <C-PageDown> :BufferNext<CR>
 nnoremap <silent>    <C-H> :BufferMovePrevious<CR>
 nnoremap <silent>    <C-L> :BufferMoveNext<CR>
 nnoremap <silent>    <C-W> :BufferClose<CR>
@@ -152,6 +154,8 @@ au BufNewFile,BufRead *.tsx set filetype=typescript.tsx
 " ts syntax
 " let g:vim_jsx_pretty_colorful_config = 1
 
+autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 1000)
+
 " search selected text with //
 vnoremap // y/\V<C-r>=escape(@",'/\')<CR><CR>
 " replace word under cursor
@@ -159,14 +163,14 @@ nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 
 " Coc
 " TextEdit might fail if hidden is not set.
-set hidden
+" set hidden
 
 " Some servers have issues with backup files, see #649.
 set nobackup
 set nowritebackup
 
 " Give more space for displaying messages.
-set cmdheight=2
+" set cmdheight=2
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
@@ -187,37 +191,30 @@ endif
 " leader key
 let mapleader=";"
 
-" Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
-
 " Make <CR> auto-select the first completion item and notify coc.nvim to
 " format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+"                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 " Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" autocmd CursorHold * silent call CocActionAsync('highlight')
 " show type hint in command area
-nmap <silent> K :call CocAction("doHover")<CR>
+" nmap <silent> K :call CocAction("doHover")<CR>
 " show full diagnostics
-nmap <silent> I :call CocAction("diagnosticInfo")<CR>
+" nmap <silent> I :call CocAction("diagnosticInfo")<CR>
 
 " Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <silent> gn <Plug>(coc-diagnostic-next)
+" nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gr <Plug>(coc-references)
+" nmap <silent> gn <Plug>(coc-diagnostic-next)
 " Remap for do codeAction of current line
-nmap <leader>ac  <Plug>(coc-codeaction)
+" nmap <leader>ac  <Plug>(coc-codeaction)
 " Fix autofix problem of current line
-nmap <leader>qf <Plug>(coc-fix-current)
+" nmap <leader>qf <Plug>(coc-fix-current)
 
 " Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
+" nmap <leader>rn <Plug>(coc-rename)
 " end Coc
 
 " remap 'mark' to gm
@@ -227,18 +224,6 @@ nmap M <Plug>MoveMotionEndOfLinePlug
 
 let g:camelcasemotion_key = '<leader>'
 
-func GitGrep(...)
-  let save = &grepprg
-  set grepprg=git\ grep\ -n\ $*
-  let s = 'grep'
-  for i in a:000
-    let s = s . ' ' . i
-  endfor
-  exe s
-  let &grepprg = save
-endfun
-command -nargs=? G call GitGrep(<f-args>)
-
 let g:EasyClipShareYanks = 1
 
 let g:rustfmt_autosave = 1
@@ -246,16 +231,16 @@ let g:rustfmt_autosave = 1
 " let g:rustfmt_fail_silently = 1
 
 " autocmd BufWinLeave * !~/cursor-reset %:p
-augroup RestoreCursorShapeOnExit
-    autocmd!
-    autocmd VimLeave * set guicursor=a:hor20-blinkwait400-blinkoff400-blinkon400
-augroup END
+" augroup RestoreCursorShapeOnExit
+    " autocmd!
+    " autocmd VimLeave * set guicursor=a:hor20-blinkwait400-blinkoff400-blinkon400
+" augroup END
 
 " colors
 " highlight Normal ctermfg=044
 " highlight Constant ctermfg=172
 " highlight NonText ctermfg=093
-highlight ColorColumn guifg=#222120
+" highlight ColorColumn guifg=#222120
 
 let g:go_fmt_command = "golines"
 let g:go_fmt_options = {

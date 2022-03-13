@@ -2,6 +2,7 @@
 
 # vi mode, see .inputrc
 set -o vi
+export EDITOR="nvim"
 
 # auto cd
 shopt -s autocd
