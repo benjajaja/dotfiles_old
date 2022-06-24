@@ -2,8 +2,11 @@
 /usr/bin/prime-offload
 
 # scale output together with DPI of 192 in .Xresources
-xrandr --output HDMI-0 --auto --primary --left-of eDP-1-1
+# xrandr --output HDMI-0 --auto --primary --left-of eDP-1-1
+autorandr -c
 xrdb -merge ~/.Xresources
+# Turn off DPMS, which randomly freezes with black screen on wakeup
+# xset -dpms
 #export GDK_SCALE=2
 # gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <2>}]"
 # gsettings set org.gnome.desktop.interface scaling-factor 2
@@ -25,6 +28,7 @@ cbatticon &
 optimus-manager-qt &
 flameshot &
 mictray &
+udiskie -t -a -n -f thunar &
 #gtrayicon --activate=\"xinput float $(keyboardid)\" --deactivate=\"xinput reattach $(keyboardid) 3\" &
 
 # screensaver
@@ -33,6 +37,7 @@ mictray &
 
 # keyboard
 systemctl --user restart kmonad@cornelius &
+kmonad $HOME/.config/kmonad/config.kbd &
 
 xmonad
 

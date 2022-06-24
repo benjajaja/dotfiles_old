@@ -62,11 +62,15 @@ require("nebulous").setup {
     functions  = false,
     variables  = false,
   },
+  custom_colors = {
+    BufferInactiveMod = { fg = "#8c7912" },
+    BufferCurrentMod = { fg = "#c9b153" },
+  },
 }
 
 require'nvim-treesitter.configs'.setup {
   -- One of "all", "maintained" (parsers with maintainers), or a list of languages
-  ensure_installed = "maintained",
+  ensure_installed = "all",
 
   -- Install languages synchronously (only applied to `ensure_installed`)
   --sync_install = false,

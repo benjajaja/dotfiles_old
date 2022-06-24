@@ -70,6 +70,8 @@ hi Normal guibg=#000000 ctermbg=0
 hi TabLineSel guifg=#ffffff ctermbg=green
 hi TabLineFill guifg=#888888 guibg=#440000
 hi MatchParen cterm=NONE ctermfg=green ctermbg=lightgreen
+hi BufferCurrentMod guifg=#c0865c
+hi BufferInactiveMod guifg=#695b40
 
 " set mouse+=a
 " breaks clipboard
@@ -110,20 +112,6 @@ let g:NERDTrimTrailingWhitespace = 1
 set nostartofline
 set colorcolumn=80
 
-" wintabs
-let g:wintabs_ui_modified = " ≠"
-"nnoremap <C-K> :bnext<CR>
-"nnoremap <C-J> :bprev<CR>
-"nnoremap <C-B> :bd<CR>
-map <C-K> <Plug>(wintabs_previous)
-map <C-J> <Plug>(wintabs_next)
-" map <C-[> <Plug>(wintabs_previous)
-" map <C-]> <Plug>(wintabs_next)
-map <C-T>c <Plug>(wintabs_close)
-map <C-T>u <Plug>(wintabs_undo)
-map <C-T>o <Plug>(wintabs_only)
-map <C-W> <Plug>(wintabs_close)
-
 " barbar
 let bufferline = get(g:, 'bufferline', {})
 let bufferline.icons = v:true
@@ -135,12 +123,11 @@ let bufferline.maximum_padding = 1
 " let bufferline.auto_hide = v:true
 nnoremap <silent>    <C-PageUp> :BufferPrevious<CR>
 nnoremap <silent>    <C-PageDown> :BufferNext<CR>
+nnoremap <silent>    <C-K> :BufferPrevious<CR>
+nnoremap <silent>    <C-J> :BufferNext<CR>
 nnoremap <silent>    <C-H> :BufferMovePrevious<CR>
 nnoremap <silent>    <C-L> :BufferMoveNext<CR>
 nnoremap <silent>    <C-W> :BufferClose<CR>
-
-call bufferline#highlight#setup()
-
 
 " prettier
 " let g:prettier#autoformat = 0

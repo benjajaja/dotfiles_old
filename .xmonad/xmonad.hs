@@ -11,6 +11,7 @@ import XMonad.Layout.Grid
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
 import XMonad.Actions.SpawnOn
+import XMonad.Actions.OnScreen
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.DynamicLog
@@ -19,28 +20,22 @@ import System.Exit
 import System.IO
 
 -- Default / Grid / Fullscren without borders
-smartLayout = Tall 1 (3/100) (55/100) ||| Grid ||| noBorders (fullscreenFull Full)
+myLayouts = Tall 1 (3/100) (55/100) ||| Grid ||| noBorders (fullscreenFull Full)
 
 -- smartBorders removes borders when single window in workspace
-noStrutLayout = smartBorders $ smartLayout
-strutLayout = avoidStruts
-  $ smartBorders . avoidStruts
-  $ smartLayout
+noStrutLayout = lessBorders Screen $ myLayouts
+strutLessBordersLayout = avoidStruts
+  $ lessBorders Screen . avoidStruts
+  $ myLayouts
 
--- TTY workspaces never have strut (bar)
 myLayoutHook =
-  onWorkspace "NET" strutLayout
-  $ onWorkspace "TTY1" noStrutLayout
-  $ onWorkspace "TTY2" noStrutLayout
-  $ onWorkspace "DEV" strutLayout
-  $ strutLayout
+  onWorkspace "1" strutLessBordersLayout
+  $ onWorkspace "2" noStrutLayout
+  $ onWorkspace "3" noStrutLayout
+  $ onWorkspace "4" strutLessBordersLayout
+  $ strutLessBordersLayout
 
-myWorkspaces =
-  [ "NET", "TTY1", "TTY2"
-  , "DEV"
-  , "COM"
-  , "6", "7", "8", "9"
-  ]
+myWorkspaces = [ "1", "2", "3", "4", "5", "6", "7", "8", "9" ]
 
 myModmask = mod4Mask -- ralt
 myTerminal = "alacritty"
@@ -86,12 +81,14 @@ main = do
         -- trayer must run AFTER xmonad has started or it will sit behind any windows
         -- spawn "/usr/bin/polybar example"
         spawn "/usr/bin/trayer --edge top --align right --SetPartialStrut true --transparent true --tint 0x000000 -l --height 32 --iconspacing 4 --expand false"
-        spawnOn "NET" "firefox"
-        spawnOn "TTY1" myTerminal
-        spawnOn "TTY2" myTerminal
-        spawnOn "COM" "telegram-desktop"
-        spawnOn "COM" "chromium"
-        sendMessage ToggleStruts -- hide strut on first workspace
+        spawnOn "1" "firefox"
+        spawnOn "2" myTerminal
+        spawnOn "3" myTerminal
+        spawnOn "3" myTerminal
+        spawnOn "5" "telegram-desktop"
+        spawnOn "5" "chromium"
+        -- sendMessage ToggleStruts -- hide strut on first workspace
+        windows (greedyViewOnScreen 1 "4")
     }
     `additionalKeys`
       [ ((myModmask, xK_p), spawn "dmitri") -- launcher
